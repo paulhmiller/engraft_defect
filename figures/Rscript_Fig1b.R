@@ -1,4 +1,4 @@
-# Scripts for In Vitro plots for Engraftment Defect paper
+# Scripts for In Vivo figure 1 plots for Engraftment Defect paper
 # Paul Miller, paulhmiller@gmail.com
 
 setwd('C:/Users/paulm/CRC Paul/PROJECTS/engraft_defect/figures')
@@ -20,10 +20,10 @@ dat <- dat[, c(1,6:ncol(dat))]
 dat <- dat[dat$Exp=='7_12_day' , ]
 dat <- droplevels(dat)
 
-pdf(file="./plots/vivoPlots.pdf", width=8/2.54, height=0.4+(4.5/2.54)) #, family='Calibri')
+pdf(file="./plots/fig1b.pdf", width=8/2.54, height=0.6+(4.5/2.54)) #, family='Calibri')
 
 ## Global Settings
-par(mfrow=c(1,2), mar=c(5.1,4.1,2.1,1.1), cex=0.7)
+par(mfrow=c(1,2), mar=c(5.6,4.1,1.6,1.1), cex=0.7)
 ylim1 <- c(0,115)
 cols <- c("red", "purple", "orange", "blue")
 #mgps = c(3,1,0)
@@ -52,9 +52,9 @@ GM <- GM[order(GM$Input), ]
 
 # Make plot
 bp <- barplot(GM$mean, axes=F, ylim=ylim1, ylab="% of input values", col=cols)
-#axis(side=1, at=bp, labels=levels(GM$Input), mgp=c(2,1,0))
+axis(side=1, at=bp, labels=rep("",4), mgp=c(2,1,0))  # makes tick marks
 labs <- levels(GM$Input)
-text(cex=1, x=bp+0.5, y=-6, labs, xpd=TRUE, srt=45, pos=2)
+text(cex=1, x=bp+0.6, y=-12, labs, xpd=TRUE, srt=45, pos=2)
 axis(side=2, las=2)
 title(main="GM", line = titledist)
 
@@ -93,12 +93,13 @@ PLT <- droplevels(PLT)
 
 # Make plot
 bp <- barplot(rep(NA,4), axes=F, ylim=ylim1)#, ylab="% of input values", col=cols)
+axis(side=1, at=bp, labels=rep("",4), mgp=c(2,1,0))  # makes tick marks
 abline(h=18, lty=3)
 #axis(side=1, at=bp, labels=levels(PLT$Input), mgp=c(2,1,0))
 barplot(PLT$mean, add=T, axes=F, ylim=ylim1, ylab="% of input values", col=cols)
 labs <- levels(PLT$Input)
-text(cex=1, x=bp+0.6, y=-8, labs, xpd=TRUE, srt=45, pos=2)
-axis(side=2, las=2)
+text(cex=1, x=bp+0.6, y=-12, labs, xpd=TRUE, srt=45, pos=2)
+axis(side=2, las=2) 
 title(main="Platelets", line = titledist)
 
 ## Add control horizontal bar:

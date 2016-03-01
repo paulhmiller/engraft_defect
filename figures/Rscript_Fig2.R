@@ -1,4 +1,4 @@
-# Scripts for In Vitro plots for Engraftment Defect paper
+# Scripts for Engraftment Defect paper, figure 2 plots
 # Paul Miller, paulhmiller@gmail.com
 
 setwd('C:/Users/paulm/CRC Paul/PROJECTS/engraft_defect/figures')
@@ -36,10 +36,11 @@ for (i in 1:nrow(dat)){
 
 
 
-pdf(file="./plots/fig2a.pdf", width=8/2.54, height=4.5/2.54) #, family='Calibri')
+pdf(file="./plots/fig2a.pdf", width=8/2.54, height=0.6+(4.5/2.54)) #, family='Calibri')
+
 
 ## Global Settings
-par(mfrow=c(1,2), mar=c(2.1,3.1,2.1,1.1), cex=0.7, mgp=c(2,0.5,0))
+par(mfrow=c(1,2), mar=c(5.1,3.1,2.1,1.1), cex=0.7, mgp=c(2,0.5,0))
 ylim1 <- c(0,115)
 ylim2 <- c(0,135)
 xlims <- c(-1.5,25.5)
@@ -98,7 +99,7 @@ dev.off()
 
 
 
-pdf(file="./plots/fig2b.pdf", width=8/2.54, height=0.4+(4.5/2.54)) #, family='Calibri')
+pdf(file="./plots/fig2b.pdf", width=8/2.54, height=0.6+(4.5/2.54)) #, family='Calibri')
 
 ## Global Settings
 par(mfrow=c(1,2), mar=c(5.1,3.1,2.1,1.1), cex=0.7, mgp=c(2,0.5,0))
@@ -131,9 +132,9 @@ GM <- GM[order(GM$Input), ]
 
 # Make plot
 bp <- barplot(rep(NA,7), axes=F, ylim=ylim2)#, ylab="% of input values", mgp=mpgs)#, col=cols)
-#axis(side=1, at=bp, labels=levels(GM$Input), mgp=c(2,1,0))
+axis(side=1, at=bp, labels=rep(NA,7), mgp=c(2,1,0))
 labs <- levels(GM$Input)
-text(cex=1, x=bp+0.8, y=-6, labs, xpd=TRUE, srt=45, pos=2)
+text(cex=1, x=bp+1.0, y=-12, labs, xpd=TRUE, srt=45, pos=2)
 axis(side=2, las=2)
 title(main="GM", line = titledist)
 # Add control horizontal bar:
@@ -170,9 +171,9 @@ PLT <- PLT[order(PLT$Input), ]
 
 # Make plot
 bp <- barplot(rep(NA,7), axes=F, ylim=ylim2)#, ylab="% of input values", mgp=mpgs)#, col=cols)
-#axis(side=1, at=bp, labels=levels(PLT$Input), mgp=c(2,1,0))
+axis(side=1, at=bp, labels=rep(NA,7), mgp=c(2,1,0))  # Axis ticks
 labs <- levels(PLT$Input)
-text(cex=1, x=bp+0.8, y=-6, labs, xpd=TRUE, srt=45, pos=2)
+text(cex=1, x=bp+1.0, y=-12, labs, xpd=TRUE, srt=45, pos=2)
 axis(side=2, las=2)
 title(main="Platelets", line = titledist)
 # Add control horizontal bar:

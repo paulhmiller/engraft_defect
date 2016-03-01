@@ -1,7 +1,7 @@
 # Scripts for In Vitro plots for Engraftment Defect paper
 # Paul Miller, paulhmiller@gmail.com
 
-setwd('C:/Users/paulm/CRC Paul/PROJECTS/engraft_defect/figures')
+setwd('C:/Users/paulm/CRC Paul/PROJECTS/engraftment_defect/figures')
 
 .pardefault <- par(no.readonly=T)
 par(.pardefault)
@@ -27,20 +27,18 @@ pchs <- c(1, 16)
 #mgps = c(3,1,0)
 xlabs <- ("") #day
 labeldist = 2
-titledist = 0.5
+titledist = 0.8
 pcex = 1.5
-xlims <- c(0.9,2.1)
 
 
 
 ## CD34 Plot
 dat <- cd34
 
-#Adjust values (i.e. jitter) so that are visible:
-dat[1,5] <- dat[1,5] +15
-dat[3,5] <- dat[3,5] -15
+#Adjust one value (i.e. jitter) so that it is visible:
+dat[1,5] <- dat[1,5] +5
 
-plot(1, type="n", axes=F, ylim=c(0,1200), xlim=xlims, ylab="cells per 100 initial CD34 cells", xlab="")
+plot(1, type="n", axes=F, ylim=c(0,1200), xlim=c(1,2), ylab="cells per 100 initial CD34 cells", xlab="")
 title(xlab=xlabs, line=labeldist, cex.lab=1)
 #mtext("label one \n label number two" , side=2, line=3)  #CD34 cells per 100 /ninitial CD34 cells
 title(main="CD34", line = titledist)
@@ -63,7 +61,7 @@ for (i in 1:4){
 
 dat <- cfc
 
-plot(1, type="n", axes=F, ylim=c(0,700), xlim=xlims, ylab="cells per 100 initial CD34 cells", xlab="")
+plot(1, type="n", axes=F, ylim=c(0,700), xlim=c(1,2), ylab="cells per 100 initial CD34 cells", xlab="")
 title(xlab=xlabs, line=labeldist, cex.lab=1)
 title(main="CFC", line = titledist)
 axis(side=2, las=2)
