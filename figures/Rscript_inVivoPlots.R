@@ -24,12 +24,12 @@ pdf(file="./plots/vivoPlots.pdf", width=8/2.54, height=0.4+(4.5/2.54)) #, family
 
 ## Global Settings
 par(mfrow=c(1,2), mar=c(5.1,4.1,2.1,1.1), cex=0.7)
-ylim1 <- c(0,125)
+ylim1 <- c(0,115)
 cols <- c("red", "purple", "orange", "blue")
 #mgps = c(3,1,0)
 #xlabs <- ("") #day
 #labeldist = 2
-titledist = 0.8
+titledist = 0.5
 
 
 

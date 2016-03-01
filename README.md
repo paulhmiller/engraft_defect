@@ -13,5 +13,5 @@ The data is contained in 2 csv files:
 
 There are multiple R script files, with one for each set of figures. 
 
-This was built using R version 3.2.3.
+This was built using R version 3.2.3 on Windows 10. 
 
