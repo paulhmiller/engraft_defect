@@ -26,7 +26,7 @@ pdf(file="./plots/fig3.pdf", width=8/2.54, height=(0.6+(4.5/2.54))) #, family='C
 
 
 ## Global Settings
-par(mfrow=c(1,2), mar=c(5.1,3.1,2.1,1.1), cex=0.7, mgp=c(2,0.5,0))
+par(mfrow=c(1,2), mar=c(5.1,3.1,2.1,1.1), cex=0.7, mgp=c(2,0.6,0))
 ylim1 <- c(0,115)
 ylim2 <- c(0,135)
 xlims <- c(0.6,3.4)
@@ -46,6 +46,7 @@ pch2 <- 16
 at1 <- c(0,12,24)
 mpg1 <- c(2.2,0.5,0)
 lwd1 <- 0.4
+pdist <- 3.4
 
 
 ## CFC Homing
@@ -53,11 +54,45 @@ cfc <- na.omit(dat)
 # Re-order factor levels:
 cfc$Input<-factor(cfc$Input, levels=c("5GF", "3GF", "2%FBS", "fresh"))
 cfc <- cfc[order(cfc$Input), ]
+
+
+
+# Statistics
+# T.Test
+cfcstats <- NULL
+for (i in levels(cfc$Input)){
+	tmp <- (t.test(cfc[cfc$Input=='fresh', 3], cfc[cfc$Input==i, 3],var.equal = FALSE))
+	tmp <- c(i, tmp$p.value)
+	cfcstats <- rbind(cfcstats, tmp)
+	}	
+cfcstats <- data.frame(cfcstats)
+cfcstats[, 2] <- as.numeric(levels(cfcstats[,2]))[cfcstats[,2]]
+
+# Add columns for asterisks. (* = p ≤ 0.05; ** = p ≤ 0.01; *** = p ≤ 0.001)
+for (i in 1:nrow(cfcstats)){
+    if (cfcstats[i, 2] <= 0.001){
+        cfcstats[i ,3] <- "***"
+	} else if (cfcstats[i, 2] <= 0.01){
+	    cfcstats[i ,3] <- "**"
+	} else if (cfcstats[i, 2] <= 0.05){
+	    cfcstats[i ,3] <- "*"
+	} else if (cfcstats[i, 2] <= 0.10){
+	    cfcstats[i ,3] <- "."
+	} else{
+	    cfcstats[i ,3] <- ""
+	}
+}
+colnames(cfcstats) <- c("Input", "p.value", "star")		
+
+
 # SummarySE provides std, SEM, and (default 95%) CI. #measurevar is the x-axis.
 cfcS <- summarySE(cfc, measurevar="percent", groupvars=c("Input", na.rm=TRUE))
 names(cfcS)[names(cfcS) == 'percent'] <- 'mean'
 
+cfcS <- merge(cfcS, data.frame(cfcstats), by = "Input")
 
+cfcS$Input<-factor(cfcS$Input, levels=c("5GF", "3GF", "2%FBS", "fresh"))
+cfcS <- cfcS[order(cfcS$Input), ]
 
 # Separate out arms
 cfcScntl <- cfcS[cfcS$Input=="fresh" ,]
@@ -72,7 +107,7 @@ cfc3GS <- cfc[cfc$Strain=="NSG-3GS" ,]
 
 
 
-# Create Line Chart
+# Create Chart
 plot(seq(1:3), type="n", axes=F, xlim=xlims, ylim=ylim1, ylab=ylab1, xlab=xlab1, mgp=mpg1) 
 #cfcS$mean ~ cfcS$Input, 
 title(main="", line = titledist)
@@ -85,9 +120,10 @@ axis(side=2, las=2, mgp=c(3,0.6,0))
 axis(side=1, at=seq(1:3), labels=rep(NA,3), mgp=c(2,1,0))  # Axis ticks
 # Error bars:
 segments(x0=c(1:3)-0.4, y0=cfcS$mean, x1=c(1:3)+0.4, y1=cfcS$mean, lwd = 1.5, col=col3)
-segments(x0=c(1:3), y0=cfcS$mean-cfcS$se, x1=c(1:3), y1=cfcS$mean+cfcS$se, lwd = 1.5, col=col3)
+#segments(x0=c(1:3), y0=cfcS$mean-cfcS$se, x1=c(1:3), y1=cfcS$mean+cfcS$se, lwd = 1.5, col=col3)
 arrows(x0=c(1:3), y0=cfcS$mean- cfcS$se, x1=c(1:3), y1=cfcS$mean + cfcS$se, lwd = 1.5, angle = 90, code = 3, length = 0.05, col=col3)
-abline(h=100, lty=3, lwd = 1.2)
+abline(h=100, lty=3, lwd = 1.2) 
+text(x = c(1:3), y = cfcS$mean+cfcS$se+pdist, labels =cfcS$star, cex=0.7) #paste("p=",round(cfcstats$p.value,2))
 box()
 
 
